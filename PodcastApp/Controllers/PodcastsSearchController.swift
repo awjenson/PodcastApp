@@ -46,41 +46,12 @@ class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 
-        // TODO: Add Alamofire to search iTunes API
-        let url = "https://itunes.apple.com/search"
+        print(1)
+        APIService.shared.fetchPodcasts(searchText: searchText) { (podcasts) in
 
-        // dictionary w/ searchText allows for us to search for names with a space
-        // "media" allows us to only display podcasts
-        let parameters = ["term": searchText, "media": "podcast"]
-
-
-        Alamofire.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).responseData { (dataResponse) in
-
-            if let err = dataResponse.error {
-                print("Failed to contact yahoo", err)
-                return
-            }
-
-            guard let data = dataResponse.data else {return}
-
-            do {
-                let searchResult = try JSONDecoder().decode(SearchResults.self, from: data)
-                self.podcasts = searchResult.results
-                self.tableView.reloadData()
-
-            } catch let decodeErr {
-                print("Failed to decode: \(decodeErr)")
-            }
+            self.podcasts = podcasts
+            self.tableView.reloadData()
         }
-
-
-
-    }
-
-    // conform to Decodable protocol
-    struct SearchResults:Decodable {
-        let resultCount: Int
-        let results: [Podcast] // class must conform to Decodable
     }
 
     // MARK: - UITableView
