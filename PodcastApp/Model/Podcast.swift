@@ -8,9 +8,11 @@
 
 import Foundation
 
-struct Podcast {
-    let name: String
-    let artistName: String
+struct Podcast: Decodable {
+    // property names need to match JSON key names
+    // make them var and optional to avoid JSON errors
+    var trackName: String?
+    var artistName: String?
 }
 
 
