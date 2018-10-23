@@ -11,10 +11,7 @@ import Alamofire
 
 class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
 
-    var podcasts = [
-        Podcast(trackName: "Lets Build That App", artistName: "Brian Voong"),
-        Podcast(trackName: "Some Podcast", artistName: "Some Author")
-    ]
+    var podcasts = [Podcast]()
 
     let cellId = "cellId"
 
@@ -26,7 +23,6 @@ class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
         // Keep viewDidLoad as clean as possible
         setupSearchBar()
         setupTableView()
-
     }
 
     // MARK: - Setup Work
@@ -39,8 +35,8 @@ class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
     }
 
     fileprivate func setupTableView() {
-//        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
 
+        tableView.tableFooterView = UIView() // removes row lines at start to display intro text in viewForHeaderInSection
         let nib = UINib(nibName: "PodcastCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: cellId)
     }
@@ -59,6 +55,18 @@ class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
 
     // MARK: - UITableView
 
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel()
+        label.text = "Please Enter a Search Term"
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        return label
+    }
+
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 250
+    }
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return podcasts.count
     }
@@ -69,11 +77,6 @@ class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
         let podcast = self.podcasts[indexPath.row]
         cell.podcast = podcast
 
-
-//        let podcast = self.podcasts[indexPath.row]
-//        cell.textLabel?.text = "\(podcast.trackName ?? "")\n\(podcast.artistName ?? "")"
-//        cell.textLabel?.numberOfLines = -1
-//        cell.imageView?.image = #imageLiteral(resourceName: "appicon")
         return cell
     }
 

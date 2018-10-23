@@ -13,6 +13,9 @@ struct Podcast: Decodable {
     // make them var and optional to avoid JSON errors
     var trackName: String?
     var artistName: String?
+    var artworkUrl600: String?
+    var trackCount: Int?
+    var feedUrl: String?
 }
 
 
