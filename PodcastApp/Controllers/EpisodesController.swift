@@ -65,9 +65,7 @@ class EpisodesController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! EpisodeCell
         let episode = episodes[indexPath.row]
-
         cell.episode = episode // see var episode didSet in EpisodeCell
-
         return cell
     }
 
@@ -76,6 +74,21 @@ class EpisodesController: UITableViewController {
     }
 
 
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let episode = self.episodes[indexPath.row]
+        print("Play episode", episode.title)
+
+        // add/display a view to entire window
+        let window = UIApplication.shared.keyWindow
+
+        // This will load the view designed in the nib file
+        let playerDetailsView = Bundle.main.loadNibNamed("PlayerDetailsView", owner: self, options: nil)?.first as! PlayerDetailsView
+
+        playerDetailsView.episode = episode
+
+        playerDetailsView.frame = self.view.frame
+        window?.addSubview(playerDetailsView)
+    }
 
 
 
