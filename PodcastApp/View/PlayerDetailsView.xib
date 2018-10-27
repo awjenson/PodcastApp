@@ -39,7 +39,7 @@
                                 <constraint firstAttribute="width" secondItem="lXE-6H-2aK" secondAttribute="height" id="7w9-sr-Noq"/>
                             </constraints>
                         </imageView>
-                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="fIY-A0-dgs">
+                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="fIY-A0-dgs">
                             <rect key="frame" x="-2" y="381" width="331" height="37"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="36" id="rkf-HF-SuL"/>
@@ -48,16 +48,16 @@
                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8nr-1c-AgY">
                             <rect key="frame" x="0.0" y="422" width="327" height="22"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="0:00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fIu-fJ-W51">
-                                    <rect key="frame" x="0.0" y="0.0" width="35.666666666666664" height="22"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="00:00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fIu-fJ-W51">
+                                    <rect key="frame" x="0.0" y="0.0" width="41.333333333333336" height="22"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="8:88" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZNP-fI-q1F">
-                                    <rect key="frame" x="35.666666666666657" y="0.0" width="291.33333333333337" height="22"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="--:--" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZNP-fI-q1F">
+                                    <rect key="frame" x="41.333333333333343" y="0.0" width="285.66666666666663" height="22"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
@@ -164,6 +164,9 @@
             <viewLayoutGuide key="safeArea" id="xcO-ho-foC"/>
             <connections>
                 <outlet property="authorLabel" destination="8hf-Mw-YWz" id="VVf-LW-MKt"/>
+                <outlet property="currentTimeLabel" destination="fIu-fJ-W51" id="0LK-fD-57T"/>
+                <outlet property="currentTimeSlider" destination="fIY-A0-dgs" id="Oci-qd-Nhy"/>
+                <outlet property="durationLabel" destination="ZNP-fI-q1F" id="YYU-1W-NqD"/>
                 <outlet property="episodeImageView" destination="lXE-6H-2aK" id="0SP-D9-kC3"/>
                 <outlet property="episodeTitleLabel" destination="CQQ-J6-4wN" id="SzY-X1-nmI"/>
                 <outlet property="playPauseButton" destination="IbK-cY-lp1" id="pjZ-lD-pfK"/>
