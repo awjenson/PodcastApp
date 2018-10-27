@@ -61,6 +61,8 @@ class PlayerDetailsView: UIView {
         self.currentTimeSlider.value = Float(percentage)
     }
 
+
+
     deinit {
         print("PlayerDetailsView memory being reclaimed...")
     }
@@ -81,6 +83,10 @@ class PlayerDetailsView: UIView {
             // Once the episode starts playing is when we can to animate
             self?.enlargeEpisodeImageView()
         }
+    }
+
+    static func initFromNib() -> PlayerDetailsView {
+        return Bundle.main.loadNibNamed("PlayerDetailsView", owner: self, options: nil)?.first as! PlayerDetailsView
     }
 
     // MARK: - IBOutlet

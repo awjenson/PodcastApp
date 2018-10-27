@@ -81,7 +81,7 @@ class EpisodesController: UITableViewController {
         let window = UIApplication.shared.keyWindow
 
         // This will load the view designed in the nib file
-        let playerDetailsView = Bundle.main.loadNibNamed("PlayerDetailsView", owner: self, options: nil)?.first as! PlayerDetailsView
+        let playerDetailsView = PlayerDetailsView.initFromNib()
 
         playerDetailsView.episode = episode
 
@@ -99,9 +99,6 @@ class EpisodesController: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return episodes.isEmpty ? 200 : 0
     }
-
-
-
 
 
 }
