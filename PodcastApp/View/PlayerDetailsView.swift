@@ -139,13 +139,49 @@ class PlayerDetailsView: UIView {
         }, completion: nil)
     }
 
-
     // MARK: - IBAction
 
     @IBAction func handleDismiss(_ sender: Any) {
         self.removeFromSuperview() // superView is the window defined in EpisodesController
     }
 
+
+
+    @IBAction func handleCurrentTimeSliderChange(_ sender: Any) {
+        print("Slider value:", currentTimeSlider.value)
+
+        // handles moving the slider and playing the audio at the selected slider value
+        let percentage = currentTimeSlider.value
+        guard let duration = player.currentItem?.duration else {return}
+        let durationInSeconds = CMTimeGetSeconds(duration)
+        let seekTimeInSeconds = Float64(percentage) * durationInSeconds
+        let seekTime = CMTimeMakeWithSeconds(seekTimeInSeconds, 1)
+
+        player.seek(to: seekTime)
+
+    }
+
+    fileprivate func seekToCurrentTime(delta: Int64) {
+        let fifteenSeconds = CMTimeMake(delta, 1)
+        let seekTime = CMTimeAdd(player.currentTime(), fifteenSeconds)
+        player.currentTime()
+        player.seek(to: seekTime)
+    }
+
+    @IBAction func handleRewind(_ sender: Any) {
+
+        seekToCurrentTime(delta: -15)
+    }
+
+    @IBAction func handleFastForward(_ sender: Any) {
+
+        seekToCurrentTime(delta: 15)
+    }
+
+    // changed sender from Any to UISlider
+    @IBAction func handleVolumeChange(_ sender: UISlider) {
+        player.volume = sender.value
+    }
 
 
 }

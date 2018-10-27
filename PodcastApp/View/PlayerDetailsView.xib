@@ -44,6 +44,9 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="36" id="rkf-HF-SuL"/>
                             </constraints>
+                            <connections>
+                                <action selector="handleCurrentTimeSliderChange:" destination="GWI-Or-ps5" eventType="valueChanged" id="GOH-zh-eLS"/>
+                            </connections>
                         </slider>
                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8nr-1c-AgY">
                             <rect key="frame" x="0.0" y="422" width="327" height="22"/>
@@ -97,6 +100,9 @@
                                     </constraints>
                                     <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                     <state key="normal" title="Button" image="rewind15"/>
+                                    <connections>
+                                        <action selector="handleRewind:" destination="GWI-Or-ps5" eventType="touchUpInside" id="KFu-N1-eSq"/>
+                                    </connections>
                                 </button>
                                 <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wef-cL-iN4">
                                     <rect key="frame" x="92.666666666666671" y="0.0" width="49.000000000000014" height="172"/>
@@ -121,6 +127,9 @@
                                     </constraints>
                                     <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                     <state key="normal" title="Button" image="fastforward15"/>
+                                    <connections>
+                                        <action selector="handleFastForward:" destination="GWI-Or-ps5" eventType="touchUpInside" id="3gC-SZ-sdQ"/>
+                                    </connections>
                                 </button>
                                 <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="emS-Yb-878">
                                     <rect key="frame" x="278.33333333333331" y="0.0" width="48.666666666666686" height="172"/>
@@ -137,8 +146,11 @@
                                         <constraint firstAttribute="width" constant="34" id="qpd-yp-Wtr"/>
                                     </constraints>
                                 </imageView>
-                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Ves-CT-7rZ">
+                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Ves-CT-7rZ">
                                     <rect key="frame" x="32" y="0.0" width="263" height="35"/>
+                                    <connections>
+                                        <action selector="handleVolumeChange:" destination="GWI-Or-ps5" eventType="valueChanged" id="rgs-iW-yDs"/>
+                                    </connections>
                                 </slider>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="max_volume" translatesAutoresizingMaskIntoConstraints="NO" id="UyE-bB-jhL">
                                     <rect key="frame" x="293" y="0.0" width="34" height="34"/>
