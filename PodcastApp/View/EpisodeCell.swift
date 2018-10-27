@@ -10,7 +10,6 @@ import UIKit
 
 class EpisodeCell: UITableViewCell {
 
-
     var episode: Episode! {
         didSet {
             // code for cellForRow at indexPath
@@ -20,6 +19,11 @@ class EpisodeCell: UITableViewCell {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "MMM dd, yyyy"
             pubDateLabel.text = dateFormatter.string(from: episode.pubDate)
+
+            // String Extension toSecureHTTPS
+            let url = URL(string: episode.imageUrl?.toSecureHTTPS() ?? "")
+
+            episodeImageView.sd_setImage(with: url) // don't need completion block since it defaults to nil
         }
 
     }

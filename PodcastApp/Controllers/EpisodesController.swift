@@ -27,49 +27,13 @@ class EpisodesController: UITableViewController {
         // FeedKit code
         guard let feedUrl = podcast?.feedUrl else {return}
 
-        let secureFeedUrl = feedUrl.contains("https") ? feedUrl : feedUrl.replacingOccurrences(of: "http", with: "https")
-
-        guard let url = URL(string: secureFeedUrl) else {return}
-        let parser = FeedParser(URL: url)
-        parser.parseAsync { (result) in
-
-
-            print("Successfully parsed feed", result.isSuccess)
-
-            // associative enumeration values
-            switch result {
-
-            case let .rss(feed):
-
-                var episodes = [Episode]() // blan Episode arry
-
-                feed.items?.forEach({ (feedItem) in
-
-                    let episode = Episode(feedItem: feedItem)
-                    episodes.append(episode)
-
-                    print(feedItem.title ?? "")
-                })
-
-                self.episodes = episodes
-
-                DispatchQueue.main.async {
-                    // update the UI
-                    self.tableView.reloadData()
-                }
-
-                break
-
-            case let .failure(error):
-                print("Failed to parse feed", error)
-                break
-
-            default:
-                print("Found a feed...")
+        APIService.shared.fetchEpisodes(feedUrl: feedUrl) { (episodes) in
+            self.episodes = episodes
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
             }
-
-
         }
+
     }
 
     fileprivate let cellId = "cellId"
