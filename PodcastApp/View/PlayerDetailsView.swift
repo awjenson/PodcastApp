@@ -43,13 +43,13 @@ class PlayerDetailsView: UIView {
 
     fileprivate func observePlayerCurrentTime() {
         let interval = CMTimeMake(1, 2)
-        player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { (time) in
+        player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] (time) in
             // See CMTime extension file for toDisplayString()
-            self.currentTimeLabel.text = time.toDisplayString()
-            let durationTime = self.player.currentItem?.duration
-            self.durationLabel.text = durationTime?.toDisplayString()
+            self?.currentTimeLabel.text = time.toDisplayString()
+            let durationTime = self?.player.currentItem?.duration
+            self?.durationLabel.text = durationTime?.toDisplayString()
 
-            self.updateCurrentTimeSlider()
+            self?.updateCurrentTimeSlider()
         }
     }
 
@@ -61,6 +61,10 @@ class PlayerDetailsView: UIView {
         self.currentTimeSlider.value = Float(percentage)
     }
 
+    deinit {
+        print("PlayerDetailsView memory being reclaimed...")
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -68,10 +72,14 @@ class PlayerDetailsView: UIView {
 
         let time = CMTimeMake(1, 3) // allows you to monitor your player when it starts
         let times = [NSValue(time: time)]
-        player.addBoundaryTimeObserver(forTimes: times, queue: .main) {
+
+        // player has sa reference to self
+        // self has a reference to player
+        // '[weak self] in' breaks retain cycle
+        player.addBoundaryTimeObserver(forTimes: times, queue: .main) { [weak self] in
             print("Episode started playing")
             // Once the episode starts playing is when we can to animate
-            self.enlargeEpisodeImageView()
+            self?.enlargeEpisodeImageView()
         }
     }
 

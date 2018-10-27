@@ -28,24 +28,29 @@ class APIService {
         let secureFeedUrl = feedUrl.contains("https") ? feedUrl : feedUrl.replacingOccurrences(of: "http", with: "https")
 
         guard let url = URL(string: secureFeedUrl) else {return}
-        let parser = FeedParser(URL: url)
-        parser.parseAsync { (result) in
 
-            print("Successfully parsed feed", result.isSuccess)
+        DispatchQueue.global(qos: .background).async {
+            print("Before parser")
+            let parser = FeedParser(URL: url)
+            print("After parser")
+            parser.parseAsync { (result) in
 
-            if let err = result.error {
-                print("Failed to parse XML feed:", err)
-                return
+                print("Successfully parsed feed", result.isSuccess)
+
+                if let err = result.error {
+                    print("Failed to parse XML feed:", err)
+                    return
+                }
+
+                guard let feed = result.rssFeed else {return}
+
+                // anytime you do refactoring you should remove the lines that reference self because we are no longer in the self object view controller. Instead call the completionHandler
+                let episodes = feed.toEpisodes()
+                completionHandler(episodes)
             }
-
-            guard let feed = result.rssFeed else {return}
-
-            // anytime you do refactoring you should remove the lines that reference self because we are no longer in the self object view controller. Instead call the completionHandler
-            let episodes = feed.toEpisodes()
-            completionHandler(episodes)
         }
-    }
 
+    }
 
 
     func fetchPodcasts(searchText: String, completionHandler: @escaping ([Podcast]) -> ()) {

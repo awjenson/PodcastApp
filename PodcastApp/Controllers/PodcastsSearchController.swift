@@ -23,7 +23,7 @@ class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
         // Keep viewDidLoad as clean as possible
         setupSearchBar()
         setupTableView()
-        searchBar(searchController.searchBar, textDidChange: "Voong")
+//        searchBar(searchController.searchBar, textDidChange: "Voong")
     }
 
     // MARK: - Setup Work
@@ -44,15 +44,20 @@ class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
     }
 
     // MARK: - UISearchBar
+    var timer: Timer?
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 
-        print(1)
-        APIService.shared.fetchPodcasts(searchText: searchText) { (podcasts) in
+        // scheduling a time everytime the textDidChange in the searchBar
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (_) in
 
-            self.podcasts = podcasts
-            self.tableView.reloadData()
-        }
+            // call code after completion of a delay
+            APIService.shared.fetchPodcasts(searchText: searchText) { (podcasts) in
+                self.podcasts = podcasts
+                self.tableView.reloadData()
+            }
+        })
     }
 
     // MARK: - UITableView
@@ -96,5 +101,7 @@ class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
         navigationController?.pushViewController(episodesController, animated: true)
 
     }
+
+
 
 }
