@@ -74,19 +74,25 @@ class EpisodesController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
         let episode = self.episodes[indexPath.row]
-        print("Play episode", episode.title)
 
-        // add/display a view to entire window
-        let window = UIApplication.shared.keyWindow
+        let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController
+        mainTabBarController?.maximizePlayerDetails(episode: episode)
 
-        // This will load the view designed in the nib file
-        let playerDetailsView = PlayerDetailsView.initFromNib()
 
-        playerDetailsView.episode = episode
-
-        playerDetailsView.frame = self.view.frame
-        window?.addSubview(playerDetailsView)
+//        print("Play episode", episode.title)
+//
+//        // add/display a view to entire window
+//        let window = UIApplication.shared.keyWindow
+//
+//        // This will load the view designed in the nib file
+//        let playerDetailsView = PlayerDetailsView.initFromNib()
+//
+//        playerDetailsView.episode = episode
+//
+//        playerDetailsView.frame = self.view.frame
+//        window?.addSubview(playerDetailsView)
     }
 
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
