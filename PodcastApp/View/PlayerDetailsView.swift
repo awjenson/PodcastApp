@@ -13,6 +13,9 @@ class PlayerDetailsView: UIView {
 
     var episode: Episode! {
         didSet {
+            // Mini
+            miniTitleLabel.text = episode.title
+            // Max
             episodeTitleLabel.text = episode.title
             authorLabel.text = episode.author
 
@@ -20,7 +23,11 @@ class PlayerDetailsView: UIView {
 
             guard let url = URL(string: episode.imageUrl ?? "") else {return}
 
-            episodeImageView.sd_setImage(with: url) // removed completionHandler because default is nil
+            // removed completionHandler because default is nil
+            // Mini
+            miniEpisodeImageView.sd_setImage(with: url)
+            // Max
+            episodeImageView.sd_setImage(with: url)
         }
     }
 
@@ -99,6 +106,33 @@ class PlayerDetailsView: UIView {
 
     // MARK: - IBOutlet
 
+
+
+
+
+    @IBOutlet weak var miniPlayerView: UIView!
+
+    @IBOutlet weak var miniEpisodeImageView: UIImageView!
+
+    @IBOutlet weak var miniTitleLabel: UILabel!
+
+    @IBOutlet weak var miniPlayPauseButton: UIButton! {
+        didSet {
+            miniPlayPauseButton.addTarget(self, action: #selector(handlePlayPause), for: .touchUpInside)
+            miniPlayPauseButton.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
+        }
+    }
+
+    @IBOutlet weak var miniFastForwardButton: UIButton! {
+        didSet {
+            miniFastForwardButton.addTarget(self, action: #selector(handleFastForward(_:)), for: .touchUpInside)
+            miniFastForwardButton.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
+        }
+    }
+
+    
+    @IBOutlet weak var maximizedStackView: UIStackView!
+    
     @IBOutlet weak var episodeImageView: UIImageView! {
         didSet {
             episodeImageView.layer.cornerRadius = 5
@@ -138,10 +172,12 @@ class PlayerDetailsView: UIView {
         if player.timeControlStatus == .paused {
             player.play()
             playPauseButton.setImage(#imageLiteral(resourceName: "pause"), for: .normal)
+            miniPlayPauseButton.setImage(#imageLiteral(resourceName: "pause"), for: .normal)
             enlargeEpisodeImageView()
         } else {
             player.pause()
             playPauseButton.setImage(#imageLiteral(resourceName: "play"), for: .normal)
+            miniPlayPauseButton.setImage(#imageLiteral(resourceName: "play"), for: .normal)
             shrinkEpisodeImageView()
         }
     }
