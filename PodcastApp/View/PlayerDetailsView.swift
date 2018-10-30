@@ -31,6 +31,9 @@ class PlayerDetailsView: UIView {
         }
     }
 
+    // local variable instance so you can use it in multiple methods
+    var panGesture: UIPanGestureRecognizer!
+
     fileprivate func playEpisode() {
         // pList > App Transport Security > Allow Arbitrary Loads > YES, to allow https
         print("Trying to play episode at url", episode.streamUrl)
@@ -74,10 +77,15 @@ class PlayerDetailsView: UIView {
         print("PlayerDetailsView memory being reclaimed...")
     }
 
+
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapMaximize)))
+
+        panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+        addGestureRecognizer(panGesture)
 
         observePlayerCurrentTime()
 
@@ -94,20 +102,63 @@ class PlayerDetailsView: UIView {
         }
     }
 
+    @objc func handlePan(gesture: UIPanGestureRecognizer) {
+        if gesture.state == .changed {
+            handlePanChanged(gesture: gesture)
+        } else if gesture.state == .ended {
+            handlePanEnded(gesture: gesture)
+        }
+    }
+
+    fileprivate func handlePanChanged(gesture: UIPanGestureRecognizer) {
+        print("changed")
+        let translation = gesture.translation(in: self.superview)
+        self.transform = CGAffineTransform(translationX: 0, y: translation.y)
+
+        // fade out occurs as we get to 200
+        self.miniPlayerView.alpha = 1 + translation.y / 200
+
+        self.maximizedStackView.alpha = -translation.y / 200
+
+        print(translation.y)
+    }
+
+    fileprivate func handlePanEnded(gesture: UIPanGestureRecognizer) {
+        // get the translation
+        let translation = gesture.translation(in: self.superview)
+        let velocity = gesture.velocity(in: self.superview)
+
+        print("Ended", velocity.y)
+
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+
+            self.transform = .identity // original state without transition
+
+            // -200 because we're using 200 above (make sure they match)
+            if translation.y < -200 || velocity.y < -500 {
+                let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController
+                mainTabBarController?.maximizePlayerDetails(episode: nil)
+                // disable gesture after it's maximized
+                gesture.isEnabled = false
+            } else {
+                self.miniPlayerView.alpha = 1
+                self.maximizedStackView.alpha = 0
+            }
+        }, completion: nil)
+    }
+
     @objc func handleTapMaximize() {
         let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController
         mainTabBarController?.maximizePlayerDetails(episode: nil)
-        print("Tapping to maximize")
+        panGesture.isEnabled = false // removes gesture recognizer while in full screen
     }
 
     static func initFromNib() -> PlayerDetailsView {
         return Bundle.main.loadNibNamed("PlayerDetailsView", owner: self, options: nil)?.first as! PlayerDetailsView
     }
 
+
     // MARK: - IBOutlet
-
-
-
 
 
     @IBOutlet weak var miniPlayerView: UIView!
@@ -200,14 +251,12 @@ class PlayerDetailsView: UIView {
     // MARK: - IBAction
 
     @IBAction func handleDismiss(_ sender: Any) {
-//        self.removeFromSuperview() // superView is the window defined in EpisodesController
 
-        print("HI")
         // call a method from another class (MainTabBarController)
         let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController
         mainTabBarController?.minimizePlayerDetails()
+        panGesture.isEnabled = true
     }
-
 
 
     @IBAction func handleCurrentTimeSliderChange(_ sender: Any) {
