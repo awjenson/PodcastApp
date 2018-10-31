@@ -156,6 +156,7 @@ class PlayerDetailsView: UIView {
         MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = elapsedTime
     }
 
+    // Lock screen code
     fileprivate func setupRemoteControl() {
         UIApplication.shared.beginReceivingRemoteControlEvents()
         // import MediaPlayer above
@@ -191,6 +192,30 @@ class PlayerDetailsView: UIView {
 
             return .success
         }
+
+        commandCenter.nextTrackCommand.addTarget(self, action: #selector(handleNextTrack))
+
+        commandCenter.previousTrackCommand.addTarget(self, action: #selector(handlePreviousTrack))
+    }
+
+    var playlistEpisodes = [Episode]()
+
+    fileprivate func changeTrack(moveForward: Bool) {
+        let offset = moveForward ? 1 : playlistEpisodes.count - 1
+        if playlistEpisodes.count == 0 {return}
+        let currentEpisodeIndex = playlistEpisodes.index { (episode) -> Bool in
+            return self.episode.title == episode.title
+        }
+        guard let index = currentEpisodeIndex else {return}
+        self.episode = playlistEpisodes[(index + offset) % playlistEpisodes.count]
+    }
+
+    @objc fileprivate func handlePreviousTrack() {
+        changeTrack(moveForward: false)
+    }
+
+    @objc fileprivate func handleNextTrack() {
+        changeTrack(moveForward: true)
     }
 
     fileprivate func observeBoundaryTime() {
