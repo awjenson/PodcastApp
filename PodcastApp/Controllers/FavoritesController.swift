@@ -20,9 +20,9 @@ class FavoritesController: UICollectionViewController, UICollectionViewDelegateF
     }
 
     fileprivate func setupCollectionView() {
-        collectionView?.backgroundColor = .blue
+        collectionView?.backgroundColor = .white
         // get the class by using .self
-        collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView?.register(FavoritePodcastCell.self, forCellWithReuseIdentifier: cellId)
     }
 
     // MARK: - UICollectionView Delegate / Spacing Methods
@@ -33,7 +33,6 @@ class FavoritesController: UICollectionViewController, UICollectionViewDelegateF
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
-        cell.backgroundColor = .red
         return cell
     }
 
@@ -41,7 +40,8 @@ class FavoritesController: UICollectionViewController, UICollectionViewDelegateF
         // create 2 column grid
         let width = (view.frame.width - 3 * 16) / 2
 
-        return CGSize(width: width, height: width)
+        // increase the height for the full image
+        return CGSize(width: width, height: width + 46)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
