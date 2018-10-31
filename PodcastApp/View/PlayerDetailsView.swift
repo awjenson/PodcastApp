@@ -42,18 +42,13 @@ class PlayerDetailsView: UIView {
         miniEpisodeImageView.sd_setImage(with: url) { (image, _, _, _) in
             // lock screen artwork setup code
 
-            guard let image = image else {return}
+            let image = self.episodeImageView.image ?? UIImage()
 
-            var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo
-
-            // some modifications here
-            let artwork = MPMediaItemArtwork(boundsSize: image.size, requestHandler: { (_) -> UIImage in
+            let artworkItem = MPMediaItemArtwork(boundsSize: .zero, requestHandler: { (size) -> UIImage in
                 return image
             })
 
-            nowPlayingInfo?[MPMediaItemPropertyArtwork] = artwork
-
-            MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+            MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPMediaItemPropertyArtwork] = artworkItem
         }
     }
 
@@ -95,28 +90,8 @@ class PlayerDetailsView: UIView {
             let durationTime = self?.player.currentItem?.duration
             self?.durationLabel.text = durationTime?.toDisplayString()
 
-            // code for the lock screen
-            self?.setupLockScreenCurrentTime()
-
             self?.updateCurrentTimeSlider()
         }
-    }
-
-    fileprivate func setupLockScreenCurrentTime() {
-
-        var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo
-
-        // some modifications here
-        guard let currentItem = player.currentItem else {return}
-        let durationInSeconds = CMTimeGetSeconds(currentItem.duration)
-
-        let elapsedTime = CMTimeGetSeconds(player.currentTime())
-
-        nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = elapsedTime
-
-        nowPlayingInfo?[MPMediaItemPropertyPlaybackDuration] = durationInSeconds
-
-        MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
     }
 
     fileprivate func updateCurrentTimeSlider() {
@@ -128,11 +103,9 @@ class PlayerDetailsView: UIView {
     }
 
 
-
     deinit {
         print("PlayerDetailsView memory being reclaimed...")
     }
-
 
 
     fileprivate func setupGestures() {
@@ -178,6 +151,11 @@ class PlayerDetailsView: UIView {
         }
     }
 
+    fileprivate func elapsedTime() {
+        let elapsedTime = CMTimeGetSeconds(player.currentTime())
+        MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = elapsedTime
+    }
+
     fileprivate func setupRemoteControl() {
         UIApplication.shared.beginReceivingRemoteControlEvents()
         // import MediaPlayer above
@@ -189,6 +167,9 @@ class PlayerDetailsView: UIView {
             self.player.play()
             self.playPauseButton.setImage(#imageLiteral(resourceName: "pause"), for: .normal)
             self.miniPlayPauseButton.setImage(#imageLiteral(resourceName: "pause"), for: .normal)
+
+            self.elapsedTime()
+
             return .success
         }
 
@@ -197,6 +178,9 @@ class PlayerDetailsView: UIView {
             self.player.pause()
             self.playPauseButton.setImage(#imageLiteral(resourceName: "play"), for: .normal)
             self.miniPlayPauseButton.setImage(#imageLiteral(resourceName: "play"), for: .normal)
+
+            self.elapsedTime()
+
             return .success
         }
 
@@ -207,6 +191,29 @@ class PlayerDetailsView: UIView {
 
             return .success
         }
+    }
+
+    fileprivate func observeBoundaryTime() {
+        let time = CMTimeMake(1, 3) // allows you to monitor your player when it starts
+        let times = [NSValue(time: time)]
+
+        // player has sa reference to self
+        // self has a reference to player
+        // '[weak self] in' breaks retain cycle
+        player.addBoundaryTimeObserver(forTimes: times, queue: .main) { [weak self] in
+            print("Episode started playing")
+            // Once the episode starts playing is when we can to animate
+            self?.enlargeEpisodeImageView()
+            self?.setupLockScreenDuration()
+        }
+    }
+
+    fileprivate func setupLockScreenDuration() {
+        guard let duration = player.currentItem?.duration else {return}
+
+        let durationSeconds = CMTimeGetSeconds(duration)
+
+        MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPMediaItemPropertyPlaybackDuration] = durationSeconds
     }
 
     override func awakeFromNib() {
@@ -220,17 +227,7 @@ class PlayerDetailsView: UIView {
 
         observePlayerCurrentTime()
 
-        let time = CMTimeMake(1, 3) // allows you to monitor your player when it starts
-        let times = [NSValue(time: time)]
-
-        // player has sa reference to self
-        // self has a reference to player
-        // '[weak self] in' breaks retain cycle
-        player.addBoundaryTimeObserver(forTimes: times, queue: .main) { [weak self] in
-            print("Episode started playing")
-            // Once the episode starts playing is when we can to animate
-            self?.enlargeEpisodeImageView()
-        }
+        observeBoundaryTime()
     }
 
     @objc func handlePan(gesture: UIPanGestureRecognizer) {
@@ -397,6 +394,9 @@ class PlayerDetailsView: UIView {
         let seekTime = CMTimeMakeWithSeconds(seekTimeInSeconds, 1)
 
         player.seek(to: seekTime)
+
+        // For lock screen display
+        MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = seekTimeInSeconds
 
     }
 
