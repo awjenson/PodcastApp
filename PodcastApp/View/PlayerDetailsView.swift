@@ -66,12 +66,37 @@ class PlayerDetailsView: UIView {
     var panGesture: UIPanGestureRecognizer!
 
     fileprivate func playEpisode() {
-        // pList > App Transport Security > Allow Arbitrary Loads > YES, to allow https
-        print("Trying to play episode at url", episode.streamUrl)
 
-        guard let url = URL(string: episode.streamUrl) else {return}
+        // check if file url exists, then play episode through fileUrl
+        if episode.fileUrl != nil {
+            playEpisodeUsingFileUrl()
+        } else {
+            // else, play normally using stream
+            // pList > App Transport Security > Allow Arbitrary Loads > YES, to allow https
+            print("Trying to play episode at url", episode.streamUrl)
 
-        let playerItem = AVPlayerItem(url: url)
+            guard let url = URL(string: episode.streamUrl) else {return}
+            let playerItem = AVPlayerItem(url: url)
+            player.replaceCurrentItem(with: playerItem)
+            player.play()
+        }
+    }
+
+    fileprivate func playEpisodeUsingFileUrl() {
+        print("Attempt to play episode with file url:", episode.fileUrl ?? "")
+
+        // identify file name for each episode file url
+        guard let fileURL = URL(string: episode.fileUrl ?? "") else {return}
+
+        let fileName = fileURL.lastPathComponent
+
+        // figure out the true location of where you downloaded file are being saved
+        guard var trueLocationFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {return}
+
+        trueLocationFilePath.appendPathComponent(fileName)
+        print("True location of episode:", trueLocationFilePath.absoluteString)
+
+        let playerItem = AVPlayerItem(url: trueLocationFilePath)
         player.replaceCurrentItem(with: playerItem)
         player.play()
     }
