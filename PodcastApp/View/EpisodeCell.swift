@@ -42,6 +42,9 @@ class EpisodeCell: UITableViewCell {
         }
     }
 
+    @IBOutlet weak var progressLabel: UILabel!
+
+
 
     
 }

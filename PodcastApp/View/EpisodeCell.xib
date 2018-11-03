@@ -50,10 +50,20 @@
                             </label>
                         </subviews>
                     </stackView>
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ven-x0-NXu">
+                        <rect key="frame" x="27" y="94.5" width="79" height="35.5"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                        <color key="shadowColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <size key="shadowOffset" width="2" height="2"/>
+                    </label>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="ven-x0-NXu" firstAttribute="centerX" secondItem="qlz-cn-J58" secondAttribute="centerX" id="9f5-dX-NQ6"/>
                     <constraint firstAttribute="trailingMargin" secondItem="rDc-Zd-z7d" secondAttribute="trailing" id="AJm-lf-LlI"/>
                     <constraint firstItem="qlz-cn-J58" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="RWJ-FQ-eIh"/>
+                    <constraint firstItem="ven-x0-NXu" firstAttribute="centerY" secondItem="qlz-cn-J58" secondAttribute="centerY" id="Rcl-aK-N6p"/>
                     <constraint firstItem="rDc-Zd-z7d" firstAttribute="leading" secondItem="qlz-cn-J58" secondAttribute="trailing" constant="16" id="SB2-wi-4q4"/>
                     <constraint firstItem="rDc-Zd-z7d" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="uab-hk-Xb3"/>
                     <constraint firstItem="qlz-cn-J58" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="w2m-1b-3wQ"/>
@@ -63,6 +73,7 @@
             <connections>
                 <outlet property="descriptionLabel" destination="je3-xt-cEf" id="LpM-bp-mRy"/>
                 <outlet property="episodeImageView" destination="qlz-cn-J58" id="E91-lA-AIq"/>
+                <outlet property="progressLabel" destination="ven-x0-NXu" id="ZEw-z0-eye"/>
                 <outlet property="pubDateLabel" destination="Gju-wW-tAa" id="PCj-Wx-yc3"/>
                 <outlet property="titleLabel" destination="E4q-Jp-oyG" id="pI7-11-T3c"/>
             </connections>

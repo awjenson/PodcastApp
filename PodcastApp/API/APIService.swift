@@ -10,6 +10,11 @@ import Foundation
 import Alamofire
 import FeedKit // needed for FeedParser
 
+extension Notification.Name {
+    static let downloadProgress = NSNotification.Name("downloadProgress")
+    static let downloadComplete = NSNotification.Name("downloadComplete")
+}
+
 
 // conform to Decodable protocol
 struct SearchResults:Decodable {
@@ -18,6 +23,8 @@ struct SearchResults:Decodable {
 }
 
 class APIService {
+
+    typealias EpisodeDownloadCompleteTuple = (fileUrl: String, episodeTitle: String)
 
     // singleton is shared
     static let shared = APIService()
@@ -29,8 +36,17 @@ class APIService {
         let downloadRequest = DownloadRequest.suggestedDownloadDestination()
         Alamofire.download(episode.streamUrl, to: downloadRequest).downloadProgress { (progress) in
             print(progress.fractionCompleted)
+
+            // Notify DownloadsController about the download progress
+
+            NotificationCenter.default.post(name: .downloadProgress, object: nil, userInfo: ["title": episode.title, "progress": progress.fractionCompleted])
+
             }.response { (resp) in
                 print(resp.destinationURL?.absoluteURL ?? "")
+
+                let episodeDownloadComplete = EpisodeDownloadCompleteTuple(fileUrl: resp.destinationURL?.absoluteString ?? "", episode.title)
+
+                NotificationCenter.default.post(name: .downloadComplete, object: episodeDownloadComplete, userInfo: nil)
 
                 // update UserDefaults downloaded episodes with this temp file
                 var downloadedEpisodes = UserDefaults.standard.downloadedEpisodes()
