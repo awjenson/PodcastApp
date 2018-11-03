@@ -11,6 +11,8 @@ import FeedKit
 
 class EpisodesController: UITableViewController {
 
+    // MARK: - Parameters
+
     var podcast: Podcast? {
         didSet {
             // access the podcast when it's set on this controller
@@ -20,6 +22,19 @@ class EpisodesController: UITableViewController {
             fetchEpisodes()
         }
     }
+
+    fileprivate let cellId = "cellId"
+    var episodes = [Episode]() // initial empty Episode array
+
+    // MARK: - Lifecycle Methods
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupTableView()
+        setupNavigationBarButtons()
+    }
+
+    // MARK: - Methods
 
     fileprivate func fetchEpisodes() {
 
@@ -32,21 +47,6 @@ class EpisodesController: UITableViewController {
                 self.tableView.reloadData()
             }
         }
-
-    }
-
-    fileprivate let cellId = "cellId"
-
-    var episodes = [Episode]() // initial empty Episode array
-
-    // MARK: - Lifecycle Methods
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupTableView()
-        setupNavigationBarButtons()
-
-
     }
 
     fileprivate func setupNavigationBarButtons() {
@@ -67,9 +67,6 @@ class EpisodesController: UITableViewController {
                 UIBarButtonItem(title: "Fetch", style: .plain, target: self, action: #selector(handleFetchSavedPodcasts))
             ]
         }
-
-
-
     }
 
     @objc fileprivate func handleSaveFavorite() {
@@ -111,8 +108,6 @@ class EpisodesController: UITableViewController {
 
     }
 
-
-
     // MARK: - Setup Work
     fileprivate func setupTableView() {
         let nib = UINib(nibName: "EpisodeCell", bundle: nil)
@@ -131,7 +126,6 @@ class EpisodesController: UITableViewController {
             UserDefaults.standard.downloadEpisode(episode: episode)
 
         }
-
         return [downloadAction]
     }
 
