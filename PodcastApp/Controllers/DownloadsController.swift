@@ -57,4 +57,10 @@ class DownloadsController: UITableViewController {
         UserDefaults.standard.deleteEpisode(episode: episode)
     }
 
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("Launch episode player")
+        let episode = episodes[indexPath.row]
+        UIApplication.mainTabBarController()?.maximizePlayerDetails(episode: episode, playlistEpisodes: self.episodes)
+    }
+
 }
