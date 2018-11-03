@@ -16,10 +16,12 @@ class Podcast: NSObject, Decodable, NSCoding {
     func encode(with aCoder: NSCoder) {
 
         print("Trying to transform Podcast into Data")
-        
+
+        // TODO: Define strings as constants
         aCoder.encode(trackName ?? "", forKey: "trackNameKey")
         aCoder.encode(artistName ?? "", forKey: "artistNameKey")
         aCoder.encode(artworkUrl600 ?? "", forKey: "artworkNameKey")
+        aCoder.encode(feedUrl ?? "", forKey: "feedKey")
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -27,7 +29,7 @@ class Podcast: NSObject, Decodable, NSCoding {
         self.trackName = aDecoder.decodeObject(forKey: "trackNameKey") as? String
         self.artistName = aDecoder.decodeObject(forKey: "artistNameKey") as? String
         self.artworkUrl600 = aDecoder.decodeObject(forKey: "artworkNameKey") as? String
-
+        self.feedUrl = aDecoder.decodeObject(forKey: "feedKey") as? String
     }
 
     // property names need to match JSON key names

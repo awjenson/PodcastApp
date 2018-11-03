@@ -9,7 +9,9 @@
 import Foundation
 import FeedKit
 
-struct Episode {
+// conforms to Codable protocol for downloading episodes into UserDefaults
+// Codable allows for Episode to conform to Encodeable and Decodable
+struct Episode: Codable {
     let title: String
     let pubDate: Date
     let description: String

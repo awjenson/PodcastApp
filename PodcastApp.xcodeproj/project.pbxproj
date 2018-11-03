@@ -20,6 +20,8 @@
 		DA263851217ED7070033C624 /* PodcastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA263850217ED7070033C624 /* PodcastCell.swift */; };
 		DA2AE452218A6336002133A9 /* FavoritesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2AE451218A6336002133A9 /* FavoritesController.swift */; };
 		DA2AE454218A72F3002133A9 /* FavoritePodcastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2AE453218A72F3002133A9 /* FavoritePodcastCell.swift */; };
+		DA2AE456218A889E002133A9 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2AE455218A889E002133A9 /* UserDefaults.swift */; };
+		DA2AE458218BEB85002133A9 /* DownloadsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2AE457218BEB85002133A9 /* DownloadsController.swift */; };
 		DA2D4EB32184DBC50036DA0A /* CMTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2D4EB22184DBC50036DA0A /* CMTime.swift */; };
 		DA2D4EB52187EC3B0036DA0A /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2D4EB42187EC3B0036DA0A /* UIApplication.swift */; };
 		DA43B11B217FF6AC00866F4E /* EpisodesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA43B11A217FF6AC00866F4E /* EpisodesController.swift */; };
@@ -49,6 +51,8 @@
 		DA263850217ED7070033C624 /* PodcastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastCell.swift; sourceTree = "<group>"; };
 		DA2AE451218A6336002133A9 /* FavoritesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesController.swift; sourceTree = "<group>"; };
 		DA2AE453218A72F3002133A9 /* FavoritePodcastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePodcastCell.swift; sourceTree = "<group>"; };
+		DA2AE455218A889E002133A9 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		DA2AE457218BEB85002133A9 /* DownloadsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadsController.swift; sourceTree = "<group>"; };
 		DA2D4EB22184DBC50036DA0A /* CMTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMTime.swift; sourceTree = "<group>"; };
 		DA2D4EB42187EC3B0036DA0A /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		DA43B11A217FF6AC00866F4E /* EpisodesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodesController.swift; sourceTree = "<group>"; };
@@ -100,6 +104,7 @@
 				DA095F6D2183E7CD00210F82 /* RSSFeed.swift */,
 				DA2D4EB22184DBC50036DA0A /* CMTime.swift */,
 				DA2D4EB42187EC3B0036DA0A /* UIApplication.swift */,
+				DA2AE455218A889E002133A9 /* UserDefaults.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -112,6 +117,7 @@
 				DA0B902C217D116000194F67 /* PodcastsSearchController.swift */,
 				DA43B11A217FF6AC00866F4E /* EpisodesController.swift */,
 				DA2AE451218A6336002133A9 /* FavoritesController.swift */,
+				DA2AE457218BEB85002133A9 /* DownloadsController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -329,6 +335,7 @@
 				DA095F692183E56700210F82 /* String.swift in Sources */,
 				DA2D4EB32184DBC50036DA0A /* CMTime.swift in Sources */,
 				DA7B9D7E217D0419009D3012 /* ViewController.swift in Sources */,
+				DA2AE458218BEB85002133A9 /* DownloadsController.swift in Sources */,
 				DA7B9D7C217D0419009D3012 /* AppDelegate.swift in Sources */,
 				DA43B11B217FF6AC00866F4E /* EpisodesController.swift in Sources */,
 				DA0B902A217D06C400194F67 /* MainTabBarController.swift in Sources */,
@@ -336,6 +343,7 @@
 				DA2AE452218A6336002133A9 /* FavoritesController.swift in Sources */,
 				DA26384C217D2C2F0033C624 /* APIService.swift in Sources */,
 				DA0B9030217D121A00194F67 /* Podcast.swift in Sources */,
+				DA2AE456218A889E002133A9 /* UserDefaults.swift in Sources */,
 				DA43B11D2180104400866F4E /* Episode.swift in Sources */,
 				DA2AE454218A72F3002133A9 /* FavoritePodcastCell.swift in Sources */,
 				DA263851217ED7070033C624 /* PodcastCell.swift in Sources */,
